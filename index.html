@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Budget Buddy - Phase 1.2 Prototype</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <main class="device" aria-label="Budgeting app prototype">
+      <section class="tab-panel active" id="tab-text">
+        <h1>-Text-</h1>
+        <div class="text-scroll">
+          <p>
+            Budget Buddy helps you manually track income, expenses, and savings goals in one private,
+            offline app.
+          </p>
+          <p>
+            You can capture recurring charges like rent, subscriptions, and utility bills so your monthly
+            plan is visible before money leaves your account.
+          </p>
+          <p>
+            Many users want to monitor category-level spending such as groceries, dining, transport,
+            clothing, and entertainment.
+          </p>
+          <p>
+            Recording each expense with category and amount supports better awareness than checking a
+            statement at the end of the month.
+          </p>
+          <p>
+            This prototype demonstrates how a user could compare expected vs. actual spending and spot
+            trends.
+          </p>
+          <p>
+            College students may track irregular income from part-time work, stipends, gifts, and side
+            gigs.
+          </p>
+          <p>
+            Early-career professionals may use the app to set weekly limits while building emergency
+            savings.
+          </p>
+          <p>
+            Working parents may prioritize household categories and upcoming due dates for family
+            expenses.
+          </p>
+          <p>
+            The app avoids bank linking and keeps all information on the local device to reduce privacy
+            concerns.
+          </p>
+          <p>
+            To keep data entry lightweight, users can add short notes and use familiar categories.
+          </p>
+          <p>
+            Weekly review views can show where overspending happened and where goals were met.
+          </p>
+          <p>
+            Budget goals can be simple: spend less than a target in one category, or save toward a
+            specific purchase.
+          </p>
+          <p>
+            Over time, users can adjust goals based on real habits instead of unrealistic starting plans.
+          </p>
+          <p>
+            This course prototype focuses on clear interaction design and does not require servers,
+            external APIs, or account setup.
+          </p>
+          <p>
+            In later phases, this foundation can expand with richer flows for recurring entries, summaries,
+            and progress feedback.
+          </p>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="tab-lr">
+        <h1>-Text in Lower Right-</h1>
+        <div class="lr-container">
+          <p>Down Here</p>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="tab-colors">
+        <h1>-Colors Example-</h1>
+        <p class="line-one">Hello There</p>
+        <p class="line-two">Hi Again</p>
+        <canvas id="budgetChart" width="560" height="560" aria-label="Budget pie chart"></canvas>
+        <div class="legend">
+          <span><i class="rose"></i>Needs</span>
+          <span><i class="violet"></i>Wants</span>
+          <span><i class="gold"></i>Savings</span>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="tab-profile">
+        <h1>-User Profile-</h1>
+        <div class="profile-wrap">
+          <button id="profileImageBtn" class="image-btn" aria-label="Profile image">
+            <img src="assets/images/smiley.svg" alt="Smiley face profile" />
+          </button>
+          <p class="name">Smiley J. Smile</p>
+        </div>
+        <div id="profileNotice" class="notice hidden" role="alert">
+          <strong>Warning!</strong> Do not click on the profile image.
+          <button id="closeNotice" aria-label="Close notification">&times;</button>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="tab-choices">
+        <h1>-Choices Screen-</h1>
+
+        <div class="choice-block">
+          <p>Budget Mode #1:</p>
+          <label><input type="radio" name="mode" value="Weekly" checked /> Weekly</label>
+          <label><input type="radio" name="mode" value="Monthly" /> Monthly</label>
+        </div>
+
+        <div class="choice-block">
+          <label for="focusSelect">Budget Focus #2:</label>
+          <select id="focusSelect">
+            <option value="Groceries">Groceries</option>
+            <option value="Subscriptions">Subscriptions</option>
+            <option value="Transport">Transport</option>
+            <option value="Savings">Savings</option>
+          </select>
+        </div>
+
+        <button id="printChoices" class="primary-btn">Print something based on above choices...</button>
+        <p id="choicesOutput" class="output"></p>
+      </section>
+
+      <section class="tab-panel" id="tab-todo">
+        <h1>-To Do List-</h1>
+
+        <div class="todo-input-row">
+          <input id="todoInput" type="text" placeholder="New entry..." />
+          <button id="addTodo">Add</button>
+        </div>
+
+        <ul id="todoList" class="todo-list">
+          <li>
+            <button class="toggle" aria-label="toggle">✓</button>
+            <span>Track groceries receipt</span>
+            <button class="delete" aria-label="delete">&times;</button>
+          </li>
+          <li class="done">
+            <button class="toggle" aria-label="toggle">✓</button>
+            <span>Enter paycheck amount</span>
+            <button class="delete" aria-label="delete">&times;</button>
+          </li>
+        </ul>
+      </section>
+
+      <nav class="bottom-nav" aria-label="Bottom tabs">
+        <button class="tab-btn active" data-tab="tab-text">
+          <img src="assets/icons/text.svg" alt="Text" />
+          <span>Text</span>
+        </button>
+        <button class="tab-btn" data-tab="tab-lr">
+          <img src="assets/icons/lr.svg" alt="LR" />
+          <span>LR</span>
+        </button>
+        <button class="tab-btn" data-tab="tab-colors">
+          <img src="assets/icons/colors.svg" alt="Colors" />
+          <span>Colors</span>
+        </button>
+        <button class="tab-btn" data-tab="tab-profile">
+          <img src="assets/icons/profile.svg" alt="Profile" />
+          <span>Profile</span>
+        </button>
+        <button class="tab-btn" data-tab="tab-choices">
+          <img src="assets/icons/choices.svg" alt="Choices" />
+          <span>Choices</span>
+        </button>
+        <button class="tab-btn" data-tab="tab-todo">
+          <img src="assets/icons/todo.svg" alt="ToDo" />
+          <span>ToDo</span>
+        </button>
+      </nav>
+    </main>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>
