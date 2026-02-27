@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <circle cx="16" cy="20" r="5" stroke="#f5ea2f" stroke-width="3"/>
-  <circle cx="32" cy="15" r="5" stroke="#f5ea2f" stroke-width="3"/>
-  <circle cx="48" cy="20" r="5" stroke="#f5ea2f" stroke-width="3"/>
-  <path d="M16 25v15" stroke="#f5ea2f" stroke-width="3"/>
-  <path d="M32 20v20" stroke="#f5ea2f" stroke-width="3"/>
-  <path d="M48 25v15" stroke="#f5ea2f" stroke-width="3"/>
-  <path d="M14 35l4-4" stroke="#f5ea2f" stroke-width="3"/>
-  <path d="M30 45l4-4" stroke="#f5ea2f" stroke-width="3"/>
-  <path d="M46 37l4-4" stroke="#f5ea2f" stroke-width="3"/>
+  <circle cx="16" cy="20" r="5" stroke="#e5e5e5" stroke-width="3"/>
+  <circle cx="32" cy="15" r="5" stroke="#e5e5e5" stroke-width="3"/>
+  <circle cx="48" cy="20" r="5" stroke="#e5e5e5" stroke-width="3"/>
+  <path d="M16 25v15" stroke="#e5e5e5" stroke-width="3"/>
+  <path d="M32 20v20" stroke="#e5e5e5" stroke-width="3"/>
+  <path d="M48 25v15" stroke="#e5e5e5" stroke-width="3"/>
+  <path d="M14 35l4-4" stroke="#e5e5e5" stroke-width="3"/>
+  <path d="M30 45l4-4" stroke="#e5e5e5" stroke-width="3"/>
+  <path d="M46 37l4-4" stroke="#e5e5e5" stroke-width="3"/>
 </svg>

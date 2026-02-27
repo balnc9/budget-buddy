@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <rect x="14" y="9" width="36" height="47" rx="3" stroke="#f5ea2f" stroke-width="4"/>
-  <rect x="25" y="5" width="14" height="8" rx="2" stroke="#f5ea2f" stroke-width="4"/>
-  <path d="M20 24h20" stroke="#f5ea2f" stroke-width="3"/>
-  <path d="M20 34h20" stroke="#f5ea2f" stroke-width="3"/>
-  <path d="M20 44h20" stroke="#f5ea2f" stroke-width="3"/>
-  <path d="M17 24l2 2 4-4" stroke="#f5ea2f" stroke-width="3"/>
-  <path d="M17 34l2 2 4-4" stroke="#f5ea2f" stroke-width="3"/>
+  <rect x="14" y="9" width="36" height="47" rx="3" stroke="#e5e5e5" stroke-width="4"/>
+  <rect x="25" y="5" width="14" height="8" rx="2" stroke="#e5e5e5" stroke-width="4"/>
+  <path d="M20 24h20" stroke="#e5e5e5" stroke-width="3"/>
+  <path d="M20 34h20" stroke="#e5e5e5" stroke-width="3"/>
+  <path d="M20 44h20" stroke="#e5e5e5" stroke-width="3"/>
+  <path d="M17 24l2 2 4-4" stroke="#e5e5e5" stroke-width="3"/>
+  <path d="M17 34l2 2 4-4" stroke="#e5e5e5" stroke-width="3"/>
 </svg>
