@@ -31,6 +31,8 @@ body {
   height: 960px;
   background: var(--bg);
   border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
   position: relative;
   overflow: hidden;
 }
@@ -223,12 +225,15 @@ input[type="radio"] {
   display: block;
   width: 100%;
   margin: 8px auto 0;
-  font-size: 29px;
-  padding: 14px 16px;
+  font-size: 27px;
+  min-height: 62px;
+  padding: 12px 16px;
   border: 1px solid #2f2f2f;
   border-radius: 8px;
   background: #fff;
   color: #111;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .output {
@@ -246,18 +251,22 @@ input[type="radio"] {
 }
 
 .todo-input-row input {
-  font-size: 30px;
-  padding: 10px;
+  font-size: 28px;
+  min-height: 58px;
+  padding: 10px 12px;
   border: 1px solid var(--line-strong);
   border-radius: 8px;
 }
 
 .todo-input-row button {
-  font-size: 28px;
+  font-size: 26px;
+  min-height: 58px;
   border: 1px solid #2f2f2f;
   border-radius: 8px;
   background: #fff;
-  padding: 0 16px;
+  padding: 0 18px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .todo-list {
@@ -293,6 +302,8 @@ input[type="radio"] {
 
 .toggle,
 .delete {
+  min-width: 34px;
+  min-height: 34px;
   border: 0;
   background: transparent;
   font-size: 28px;
@@ -316,7 +327,8 @@ input[type="radio"] {
   border: 0;
   background: transparent;
   color: var(--nav-text);
-  padding: 6px 0;
+  min-height: 100px;
+  padding: 8px 0 6px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -330,15 +342,22 @@ input[type="radio"] {
 }
 
 .tab-btn img {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   opacity: 0.92;
 }
 
 .tab-btn span {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 650;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.25px;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid #8f8f8f;
+  outline-offset: 2px;
 }
 
 @media (max-width: 700px) {
