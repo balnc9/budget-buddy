@@ -3,178 +3,466 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Budget Buddy - Phase 1.2 Prototype</title>
+    <title>Budget Buddy</title>
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
-    <main class="device" aria-label="Budgeting app prototype">
-      <section class="tab-panel active" id="tab-text">
-        <h1>Project Context Notes</h1>
-        <div class="text-scroll">
-          <p>
-            Budget Buddy helps you manually track income, expenses, and savings goals in one private,
-            offline app.
-          </p>
-          <p>
-            You can capture recurring charges like rent, subscriptions, and utility bills so your monthly
-            plan is visible before money leaves your account.
-          </p>
-          <p>
-            Many users want to monitor category-level spending such as groceries, dining, transport,
-            clothing, and entertainment.
-          </p>
-          <p>
-            Recording each expense with category and amount supports better awareness than checking a
-            statement at the end of the month.
-          </p>
-          <p>
-            This prototype demonstrates how a user could compare expected vs. actual spending and spot
-            trends.
-          </p>
-          <p>
-            College students may track irregular income from part-time work, stipends, gifts, and side
-            gigs.
-          </p>
-          <p>
-            Early-career professionals may use the app to set weekly limits while building emergency
-            savings.
-          </p>
-          <p>
-            Working parents may prioritize household categories and upcoming due dates for family
-            expenses.
-          </p>
-          <p>
-            The app avoids bank linking and keeps all information on the local device to reduce privacy
-            concerns.
-          </p>
-          <p>
-            To keep data entry lightweight, users can add short notes and use familiar categories.
-          </p>
-          <p>
-            Weekly review views can show where overspending happened and where goals were met.
-          </p>
-          <p>
-            Budget goals can be simple: spend less than a target in one category, or save toward a
-            specific purchase.
-          </p>
-          <p>
-            Over time, users can adjust goals based on real habits instead of unrealistic starting plans.
-          </p>
-          <p>
-            This course prototype focuses on clear interaction design and does not require servers,
-            external APIs, or account setup.
-          </p>
-          <p>
-            In later phases, this foundation can expand with richer flows for recurring entries, summaries,
-            and progress feedback.
-          </p>
+    <main class="device" aria-label="Budget Buddy application">
+
+      <!-- ===== RECORDING FEATURE SET ===== -->
+      <section class="feature-set" id="fs-recording">
+
+        <!-- Recording: Transaction List (top-level / landing screen) -->
+        <div class="screen active" id="rec-list">
+          <header class="screen-header">
+            <h1>Transactions</h1>
+            <div class="header-actions">
+              <button class="icon-btn" id="rec-search-toggle" aria-label="Search transactions">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+              </button>
+              <button class="icon-btn" id="rec-add-btn" aria-label="Add new transaction">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+            </div>
+          </header>
+
+          <div class="search-bar hidden" id="rec-search-bar">
+            <input type="text" id="rec-search-input" placeholder="Search by description, category..." aria-label="Search transactions" />
+            <button class="search-clear-btn" id="rec-search-clear" aria-label="Clear search">&times;</button>
+          </div>
+
+          <div class="filter-row">
+            <div class="filter-tabs" id="rec-type-filter">
+              <button class="filter-tab active" data-filter="all">All</button>
+              <button class="filter-tab" data-filter="expense">Expenses</button>
+              <button class="filter-tab" data-filter="income">Income</button>
+              <button class="filter-tab" data-filter="recurring">Recurring</button>
+            </div>
+          </div>
+
+          <div class="sort-row">
+            <label for="rec-sort-select">Sort by:</label>
+            <select id="rec-sort-select">
+              <option value="date-desc">Date (Newest)</option>
+              <option value="date-asc">Date (Oldest)</option>
+              <option value="amount-desc">Amount (High-Low)</option>
+              <option value="amount-asc">Amount (Low-High)</option>
+              <option value="category">Category (A-Z)</option>
+            </select>
+          </div>
+
+          <div class="month-summary-bar" id="rec-month-summary">
+            <span class="month-label" id="rec-month-label">April 2026</span>
+            <span class="month-bal">
+              Balance: <strong id="rec-month-balance">$0.00</strong>
+            </span>
+          </div>
+
+          <ul class="transaction-list" id="rec-transaction-list" aria-label="Transaction list"></ul>
+        </div>
+
+        <!-- Recording: Add/Edit Transaction Screen -->
+        <div class="screen" id="rec-add">
+          <header class="screen-header">
+            <button class="back-btn" data-back="rec-list" aria-label="Back to transactions">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <h1 id="rec-add-title">Add Transaction</h1>
+            <div class="header-actions"></div>
+          </header>
+
+          <div class="form-scroll">
+            <form id="rec-add-form" novalidate>
+              <div class="form-group">
+                <label class="form-label">Type</label>
+                <div class="radio-group" id="rec-type-group">
+                  <label class="radio-pill">
+                    <input type="radio" name="rec-type" value="expense" checked />
+                    <span>Expense</span>
+                  </label>
+                  <label class="radio-pill">
+                    <input type="radio" name="rec-type" value="income" />
+                    <span>Income</span>
+                  </label>
+                  <label class="radio-pill">
+                    <input type="radio" name="rec-type" value="recurring" />
+                    <span>Recurring</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="rec-description">Description</label>
+                <input type="text" id="rec-description" class="form-input" placeholder="e.g. Grocery run at Trader Joe's" required />
+                <span class="form-error" id="rec-description-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="rec-amount">Amount ($)</label>
+                <input type="number" id="rec-amount" class="form-input" placeholder="0.00" min="0.01" step="0.01" required />
+                <span class="form-error" id="rec-amount-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="rec-category">Category</label>
+                <select id="rec-category" class="form-select">
+                  <optgroup label="Expense Categories">
+                    <option value="Groceries">Groceries</option>
+                    <option value="Dining">Dining</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Clothing">Clothing</option>
+                    <option value="Utilities">Utilities</option>
+                    <option value="Rent">Rent</option>
+                    <option value="Subscriptions">Subscriptions</option>
+                    <option value="Health">Health</option>
+                    <option value="Education">Education</option>
+                    <option value="Other Expense">Other Expense</option>
+                  </optgroup>
+                  <optgroup label="Income Categories">
+                    <option value="Salary">Salary</option>
+                    <option value="Part-Time">Part-Time</option>
+                    <option value="Freelance">Freelance</option>
+                    <option value="Gift">Gift</option>
+                    <option value="Stipend">Stipend</option>
+                    <option value="Other Income">Other Income</option>
+                  </optgroup>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="rec-date">Date</label>
+                <input type="date" id="rec-date" class="form-input" required />
+                <span class="form-error" id="rec-date-error"></span>
+              </div>
+
+              <!-- Recurring-specific fields -->
+              <div class="recurring-fields hidden" id="rec-recurring-fields">
+                <div class="form-group">
+                  <label class="form-label" for="rec-frequency">Frequency</label>
+                  <select id="rec-frequency" class="form-select">
+                    <option value="monthly">Monthly</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="biweekly">Bi-weekly</option>
+                    <option value="quarterly">Quarterly</option>
+                    <option value="yearly">Yearly</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="rec-next-due">Next Due Date</label>
+                  <input type="date" id="rec-next-due" class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Auto-remind?</label>
+                  <div class="toggle-row">
+                    <span class="toggle-label-text">Receive a reminder before due date</span>
+                    <label class="toggle-switch">
+                      <input type="checkbox" id="rec-remind" />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="rec-notes">Notes (optional)</label>
+                <textarea id="rec-notes" class="form-textarea" rows="2" placeholder="Any additional details..."></textarea>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary" id="rec-save-btn">Save Transaction</button>
+                <button type="button" class="btn btn-secondary" id="rec-cancel-btn">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Recording: Transaction Detail View -->
+        <div class="screen" id="rec-detail">
+          <header class="screen-header">
+            <button class="back-btn" data-back="rec-list" aria-label="Back to transactions">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <h1>Transaction Details</h1>
+            <div class="header-actions">
+              <button class="icon-btn" id="rec-detail-edit" aria-label="Edit transaction">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 3a2.83 2.83 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+              </button>
+              <button class="icon-btn danger" id="rec-detail-delete" aria-label="Delete transaction">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+              </button>
+            </div>
+          </header>
+          <div class="detail-body" id="rec-detail-body"></div>
         </div>
       </section>
 
-      <section class="tab-panel" id="tab-lr">
-        <h1>Lower Right Placement</h1>
-        <div class="lr-container">
-          <p>Down Here</p>
+      <!-- ===== PLANNING FEATURE SET ===== -->
+      <section class="feature-set" id="fs-planning">
+
+        <!-- Planning: Budget Overview (top-level) -->
+        <div class="screen active" id="plan-overview">
+          <header class="screen-header">
+            <h1>Budget Plan</h1>
+            <div class="header-actions">
+              <button class="icon-btn" id="plan-add-category-btn" aria-label="Add budget category">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+            </div>
+          </header>
+
+          <div class="plan-month-nav">
+            <button class="month-arrow" id="plan-prev-month" aria-label="Previous month">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <span class="plan-month-label" id="plan-month-label">April 2026</span>
+            <button class="month-arrow" id="plan-next-month" aria-label="Next month">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="9 6 15 12 9 18"/></svg>
+            </button>
+          </div>
+
+          <div class="plan-totals-card" id="plan-totals-card">
+            <div class="plan-total-row">
+              <span>Monthly Income</span>
+              <span class="plan-total-value income" id="plan-total-income">$0.00</span>
+            </div>
+            <div class="plan-total-row">
+              <span>Total Budget</span>
+              <span class="plan-total-value expense" id="plan-total-budget">$0.00</span>
+            </div>
+            <div class="plan-total-row remaining">
+              <span>Unallocated</span>
+              <span class="plan-total-value" id="plan-unallocated">$0.00</span>
+            </div>
+          </div>
+
+          <div class="section-label">
+            <span>Budget Categories</span>
+          </div>
+
+          <ul class="category-list" id="plan-category-list" aria-label="Budget categories"></ul>
+
+          <div class="section-label" style="margin-top:12px">
+            <span>Savings Goals</span>
+            <button class="icon-btn-sm" id="plan-add-goal-btn" aria-label="Add savings goal">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+          </div>
+
+          <ul class="goal-list" id="plan-goal-list" aria-label="Savings goals"></ul>
+        </div>
+
+        <!-- Planning: Add/Edit Budget Category -->
+        <div class="screen" id="plan-add-category">
+          <header class="screen-header">
+            <button class="back-btn" data-back="plan-overview" aria-label="Back to budget plan">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <h1 id="plan-cat-title">Add Category</h1>
+            <div class="header-actions"></div>
+          </header>
+
+          <div class="form-scroll">
+            <form id="plan-category-form" novalidate>
+              <div class="form-group">
+                <label class="form-label" for="plan-cat-name">Category Name</label>
+                <input type="text" id="plan-cat-name" class="form-input" placeholder="e.g. Groceries" required />
+                <span class="form-error" id="plan-cat-name-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="plan-cat-limit">Monthly Limit ($)</label>
+                <input type="number" id="plan-cat-limit" class="form-input" placeholder="0.00" min="0" step="0.01" required />
+                <span class="form-error" id="plan-cat-limit-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="plan-cat-color">Color</label>
+                <div class="color-picker" id="plan-cat-color-picker">
+                  <button type="button" class="color-swatch active" data-color="#4A90D9" style="background:#4A90D9" aria-label="Blue"></button>
+                  <button type="button" class="color-swatch" data-color="#D87093" style="background:#D87093" aria-label="Rose"></button>
+                  <button type="button" class="color-swatch" data-color="#50B86C" style="background:#50B86C" aria-label="Green"></button>
+                  <button type="button" class="color-swatch" data-color="#E6A23C" style="background:#E6A23C" aria-label="Amber"></button>
+                  <button type="button" class="color-swatch" data-color="#9B6DCC" style="background:#9B6DCC" aria-label="Purple"></button>
+                  <button type="button" class="color-swatch" data-color="#E66B6B" style="background:#E66B6B" aria-label="Red"></button>
+                  <button type="button" class="color-swatch" data-color="#5BBCD6" style="background:#5BBCD6" aria-label="Teal"></button>
+                  <button type="button" class="color-swatch" data-color="#F0C27A" style="background:#F0C27A" aria-label="Gold"></button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="plan-cat-icon">Icon</label>
+                <div class="icon-picker" id="plan-cat-icon-picker">
+                  <button type="button" class="icon-pick active" data-icon="cart" aria-label="Groceries">GR</button>
+                  <button type="button" class="icon-pick" data-icon="utensils" aria-label="Dining">DI</button>
+                  <button type="button" class="icon-pick" data-icon="car" aria-label="Transport">TR</button>
+                  <button type="button" class="icon-pick" data-icon="film" aria-label="Entertainment">EN</button>
+                  <button type="button" class="icon-pick" data-icon="shirt" aria-label="Clothing">CL</button>
+                  <button type="button" class="icon-pick" data-icon="bolt" aria-label="Utilities">UT</button>
+                  <button type="button" class="icon-pick" data-icon="home" aria-label="Housing">HO</button>
+                  <button type="button" class="icon-pick" data-icon="heart" aria-label="Health">HE</button>
+                  <button type="button" class="icon-pick" data-icon="book" aria-label="Education">ED</button>
+                  <button type="button" class="icon-pick" data-icon="star" aria-label="Other">OT</button>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary" id="plan-cat-save">Save Category</button>
+                <button type="button" class="btn btn-secondary" id="plan-cat-cancel">Cancel</button>
+                <button type="button" class="btn btn-danger hidden" id="plan-cat-delete">Delete Category</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Planning: Add/Edit Savings Goal -->
+        <div class="screen" id="plan-add-goal">
+          <header class="screen-header">
+            <button class="back-btn" data-back="plan-overview" aria-label="Back to budget plan">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <h1 id="plan-goal-title">Add Savings Goal</h1>
+            <div class="header-actions"></div>
+          </header>
+
+          <div class="form-scroll">
+            <form id="plan-goal-form" novalidate>
+              <div class="form-group">
+                <label class="form-label" for="plan-goal-name">Goal Name</label>
+                <input type="text" id="plan-goal-name" class="form-input" placeholder="e.g. Emergency Fund" required />
+                <span class="form-error" id="plan-goal-name-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="plan-goal-target">Target Amount ($)</label>
+                <input type="number" id="plan-goal-target" class="form-input" placeholder="0.00" min="1" step="0.01" required />
+                <span class="form-error" id="plan-goal-target-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="plan-goal-saved">Already Saved ($)</label>
+                <input type="number" id="plan-goal-saved" class="form-input" placeholder="0.00" min="0" step="0.01" />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="plan-goal-deadline">Target Date (optional)</label>
+                <input type="date" id="plan-goal-deadline" class="form-input" />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="plan-goal-monthly">Monthly Contribution ($)</label>
+                <input type="number" id="plan-goal-monthly" class="form-input" placeholder="0.00" min="0" step="0.01" />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="plan-goal-notes">Notes (optional)</label>
+                <textarea id="plan-goal-notes" class="form-textarea" rows="2" placeholder="Any details about this goal..."></textarea>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary" id="plan-goal-save">Save Goal</button>
+                <button type="button" class="btn btn-secondary" id="plan-goal-cancel">Cancel</button>
+                <button type="button" class="btn btn-danger hidden" id="plan-goal-delete">Delete Goal</button>
+              </div>
+            </form>
+          </div>
         </div>
       </section>
 
-      <section class="tab-panel" id="tab-colors">
-        <h1>Color Requirements Demo</h1>
-        <p class="line-one">Hello There</p>
-        <p class="line-two">Hi Again</p>
-        <canvas id="budgetChart" width="560" height="560" aria-label="Budget pie chart"></canvas>
-        <div class="legend">
-          <span><i class="rose"></i>Needs</span>
-          <span><i class="violet"></i>Wants</span>
-          <span><i class="gold"></i>Savings</span>
+      <!-- ===== TRACKING FEATURE SET ===== -->
+      <section class="feature-set" id="fs-tracking">
+
+        <!-- Tracking: Dashboard (top-level) -->
+        <div class="screen active" id="track-dashboard">
+          <header class="screen-header">
+            <h1>Spending Tracker</h1>
+            <div class="header-actions"></div>
+          </header>
+
+          <div class="plan-month-nav">
+            <button class="month-arrow" id="track-prev-month" aria-label="Previous month">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <span class="plan-month-label" id="track-month-label">April 2026</span>
+            <button class="month-arrow" id="track-next-month" aria-label="Next month">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="9 6 15 12 9 18"/></svg>
+            </button>
+          </div>
+
+          <div class="track-summary-cards">
+            <div class="summary-card income-card">
+              <span class="summary-card-label">Income</span>
+              <span class="summary-card-value" id="track-total-income">$0.00</span>
+            </div>
+            <div class="summary-card expense-card">
+              <span class="summary-card-label">Spent</span>
+              <span class="summary-card-value" id="track-total-spent">$0.00</span>
+            </div>
+            <div class="summary-card balance-card">
+              <span class="summary-card-label">Remaining</span>
+              <span class="summary-card-value" id="track-remaining">$0.00</span>
+            </div>
+          </div>
+
+          <div class="section-label">
+            <span>Budget vs Actual</span>
+          </div>
+
+          <div class="track-chart-area">
+            <canvas id="trackPieChart" width="200" height="200" aria-label="Spending breakdown chart"></canvas>
+            <div class="chart-legend" id="track-chart-legend"></div>
+          </div>
+
+          <div class="section-label">
+            <span>Category Breakdown</span>
+          </div>
+
+          <ul class="track-category-list" id="track-category-list" aria-label="Spending by category"></ul>
+        </div>
+
+        <!-- Tracking: Category Detail -->
+        <div class="screen" id="track-category-detail">
+          <header class="screen-header">
+            <button class="back-btn" data-back="track-dashboard" aria-label="Back to tracker">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <h1 id="track-cat-detail-title">Category</h1>
+            <div class="header-actions"></div>
+          </header>
+          <div class="detail-body" id="track-cat-detail-body"></div>
         </div>
       </section>
 
-      <section class="tab-panel" id="tab-profile">
-        <h1>User Profile</h1>
-        <div class="profile-wrap">
-          <button id="profileImageBtn" class="image-btn" aria-label="Profile image">
-            <img src="assets/images/smiley.png" alt="Smiley face profile" />
-          </button>
-          <p class="name">Smiley J. Smile</p>
-        </div>
-        <div id="profileNotice" class="notice hidden" role="alert">
-          <strong>Warning!</strong> Do not click on the profile image.
-          <button id="closeNotice" aria-label="Close notification">&times;</button>
-        </div>
-      </section>
-
-      <section class="tab-panel" id="tab-choices">
-        <h1>Input Choices</h1>
-
-        <div class="choice-block">
-          <p>Budget Mode #1:</p>
-          <label><input type="radio" name="mode" value="Weekly" checked /> Weekly</label>
-          <label><input type="radio" name="mode" value="Monthly" /> Monthly</label>
-        </div>
-
-        <div class="choice-block">
-          <label for="focusSelect">Budget Focus #2:</label>
-          <select id="focusSelect">
-            <option value="Groceries">Groceries</option>
-            <option value="Subscriptions">Subscriptions</option>
-            <option value="Transport">Transport</option>
-            <option value="Savings">Savings</option>
-          </select>
-        </div>
-
-        <button id="printChoices" class="primary-btn">Show selected configuration</button>
-        <p id="choicesOutput" class="output"></p>
-      </section>
-
-      <section class="tab-panel" id="tab-todo">
-        <h1>Task List</h1>
-
-        <div class="todo-input-row">
-          <input id="todoInput" type="text" placeholder="New entry..." />
-          <button id="addTodo">Add</button>
-        </div>
-
-        <ul id="todoList" class="todo-list">
-          <li>
-            <button class="toggle" aria-label="toggle">✓</button>
-            <span>Track groceries receipt</span>
-            <button class="delete" aria-label="delete">&times;</button>
-          </li>
-          <li class="done">
-            <button class="toggle" aria-label="toggle">✓</button>
-            <span>Enter paycheck amount</span>
-            <button class="delete" aria-label="delete">&times;</button>
-          </li>
-        </ul>
-      </section>
-
-      <nav class="bottom-nav" aria-label="Bottom tabs">
-        <button class="tab-btn active" data-tab="tab-text">
-          <img src="assets/icons/text.svg" alt="Text" />
-          <span>Text</span>
+      <!-- ===== BOTTOM NAVIGATION ===== -->
+      <nav class="bottom-nav" aria-label="Main navigation">
+        <button class="nav-btn active" data-feature="fs-recording" aria-label="Recording">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          <span>Record</span>
         </button>
-        <button class="tab-btn" data-tab="tab-lr">
-          <img src="assets/icons/lr.svg" alt="LR" />
-          <span>LR</span>
+        <button class="nav-btn" data-feature="fs-planning" aria-label="Planning">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
+          <span>Plan</span>
         </button>
-        <button class="tab-btn" data-tab="tab-colors">
-          <img src="assets/icons/colors.svg" alt="Colors" />
-          <span>Colors</span>
-        </button>
-        <button class="tab-btn" data-tab="tab-profile">
-          <img src="assets/icons/profile.svg" alt="Profile" />
-          <span>Profile</span>
-        </button>
-        <button class="tab-btn" data-tab="tab-choices">
-          <img src="assets/icons/choices.svg" alt="Choices" />
-          <span>Choices</span>
-        </button>
-        <button class="tab-btn" data-tab="tab-todo">
-          <img src="assets/icons/todo.svg" alt="ToDo" />
-          <span>ToDo</span>
+        <button class="nav-btn" data-feature="fs-tracking" aria-label="Tracking">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
+          <span>Track</span>
         </button>
       </nav>
+
+      <!-- ===== MODAL OVERLAY (for confirmations) ===== -->
+      <div class="modal-overlay hidden" id="modal-overlay">
+        <div class="modal-box" id="modal-box" role="dialog" aria-modal="true">
+          <p class="modal-message" id="modal-message"></p>
+          <div class="modal-actions">
+            <button class="btn btn-secondary" id="modal-cancel">Cancel</button>
+            <button class="btn btn-danger" id="modal-confirm">Delete</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Toast notification -->
+      <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
+
     </main>
 
     <script src="js/app.js"></script>
