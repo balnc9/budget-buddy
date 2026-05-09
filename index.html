@@ -20,45 +20,49 @@
               <button class="icon-btn" id="rec-search-toggle" aria-label="Search transactions">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
               </button>
-              <button class="icon-btn" id="rec-add-btn" aria-label="Add new transaction">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              </button>
             </div>
           </header>
 
-          <div class="search-bar hidden" id="rec-search-bar">
-            <input type="text" id="rec-search-input" placeholder="Search by description, category..." aria-label="Search transactions" />
-            <button class="search-clear-btn" id="rec-search-clear" aria-label="Clear search">&times;</button>
-          </div>
-
-          <div class="filter-row">
-            <div class="filter-tabs" id="rec-type-filter">
-              <button class="filter-tab active" data-filter="all">All</button>
-              <button class="filter-tab" data-filter="expense">Expenses</button>
-              <button class="filter-tab" data-filter="income">Income</button>
-              <button class="filter-tab" data-filter="recurring">Recurring</button>
+          <div class="screen-body">
+            <div class="search-bar hidden" id="rec-search-bar">
+              <input type="text" id="rec-search-input" placeholder="Search by description, category..." aria-label="Search transactions" />
+              <button class="search-clear-btn" id="rec-search-clear" aria-label="Clear search">&times;</button>
             </div>
+
+            <div class="filter-row">
+              <div class="filter-tabs" id="rec-type-filter">
+                <button class="filter-tab active" data-filter="all">All</button>
+                <button class="filter-tab" data-filter="expense">Expenses</button>
+                <button class="filter-tab" data-filter="income">Income</button>
+                <button class="filter-tab" data-filter="recurring">Recurring</button>
+              </div>
+            </div>
+
+            <div class="sort-row">
+              <label for="rec-sort-select">Sort by:</label>
+              <select id="rec-sort-select">
+                <option value="date-desc">Date (Newest)</option>
+                <option value="date-asc">Date (Oldest)</option>
+                <option value="amount-desc">Amount (High→Low)</option>
+                <option value="amount-asc">Amount (Low→High)</option>
+                <option value="category">Category (A-Z)</option>
+              </select>
+            </div>
+
+            <div class="month-summary-bar" id="rec-month-summary">
+              <span class="month-label" id="rec-month-label">April 2026</span>
+              <span class="month-bal">
+                Balance: <strong id="rec-month-balance">$0.00</strong>
+              </span>
+            </div>
+
+            <ul class="transaction-list" id="rec-transaction-list" aria-label="Transaction list"></ul>
           </div>
 
-          <div class="sort-row">
-            <label for="rec-sort-select">Sort by:</label>
-            <select id="rec-sort-select">
-              <option value="date-desc">Date (Newest)</option>
-              <option value="date-asc">Date (Oldest)</option>
-              <option value="amount-desc">Amount (High-Low)</option>
-              <option value="amount-asc">Amount (Low-High)</option>
-              <option value="category">Category (A-Z)</option>
-            </select>
-          </div>
-
-          <div class="month-summary-bar" id="rec-month-summary">
-            <span class="month-label" id="rec-month-label">April 2026</span>
-            <span class="month-bal">
-              Balance: <strong id="rec-month-balance">$0.00</strong>
-            </span>
-          </div>
-
-          <ul class="transaction-list" id="rec-transaction-list" aria-label="Transaction list"></ul>
+          <button class="fab" id="rec-add-btn" aria-label="Add new transaction">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>Add Transaction</span>
+          </button>
         </div>
 
         <!-- Recording: Add/Edit Transaction Screen -->
@@ -204,52 +208,53 @@
         <div class="screen active" id="plan-overview">
           <header class="screen-header">
             <h1>Budget Plan</h1>
-            <div class="header-actions">
-              <button class="icon-btn" id="plan-add-category-btn" aria-label="Add budget category">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              </button>
-            </div>
+            <div class="header-actions"></div>
           </header>
 
-          <div class="plan-month-nav">
-            <button class="month-arrow" id="plan-prev-month" aria-label="Previous month">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="15 18 9 12 15 6"/></svg>
-            </button>
-            <span class="plan-month-label" id="plan-month-label">April 2026</span>
-            <button class="month-arrow" id="plan-next-month" aria-label="Next month">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="9 6 15 12 9 18"/></svg>
-            </button>
-          </div>
-
-          <div class="plan-totals-card" id="plan-totals-card">
-            <div class="plan-total-row">
-              <span>Monthly Income</span>
-              <span class="plan-total-value income" id="plan-total-income">$0.00</span>
+          <div class="screen-body">
+            <div class="plan-month-nav">
+              <button class="month-arrow" id="plan-prev-month" aria-label="Previous month">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <span class="plan-month-label" id="plan-month-label">April 2026</span>
+              <button class="month-arrow" id="plan-next-month" aria-label="Next month">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="9 6 15 12 9 18"/></svg>
+              </button>
             </div>
-            <div class="plan-total-row">
-              <span>Total Budget</span>
-              <span class="plan-total-value expense" id="plan-total-budget">$0.00</span>
+
+            <div class="plan-totals-card" id="plan-totals-card">
+              <div class="plan-total-row">
+                <span>Monthly Income</span>
+                <span class="plan-total-value income" id="plan-total-income">$0.00</span>
+              </div>
+              <div class="plan-total-row">
+                <span>Total Budget</span>
+                <span class="plan-total-value expense" id="plan-total-budget">$0.00</span>
+              </div>
+              <div class="plan-total-row remaining">
+                <span>Unallocated</span>
+                <span class="plan-total-value" id="plan-unallocated">$0.00</span>
+              </div>
             </div>
-            <div class="plan-total-row remaining">
-              <span>Unallocated</span>
-              <span class="plan-total-value" id="plan-unallocated">$0.00</span>
+
+            <div class="section-label">
+              <span>Budget Categories</span>
             </div>
+
+            <ul class="category-list" id="plan-category-list" aria-label="Budget categories"></ul>
+
+            <div class="section-label" style="margin-top:12px">
+              <span>Savings Goals</span>
+              <button class="add-text-btn" id="plan-add-goal-btn" aria-label="Add savings goal">+ Add Goal</button>
+            </div>
+
+            <ul class="goal-list" id="plan-goal-list" aria-label="Savings goals"></ul>
           </div>
 
-          <div class="section-label">
-            <span>Budget Categories</span>
-          </div>
-
-          <ul class="category-list" id="plan-category-list" aria-label="Budget categories"></ul>
-
-          <div class="section-label" style="margin-top:12px">
-            <span>Savings Goals</span>
-            <button class="icon-btn-sm" id="plan-add-goal-btn" aria-label="Add savings goal">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-
-          <ul class="goal-list" id="plan-goal-list" aria-label="Savings goals"></ul>
+          <button class="fab" id="plan-add-category-btn" aria-label="Add budget category">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>Add Category</span>
+          </button>
         </div>
 
         <!-- Planning: Add/Edit Budget Category -->
@@ -279,14 +284,14 @@
               <div class="form-group">
                 <label class="form-label" for="plan-cat-color">Color</label>
                 <div class="color-picker" id="plan-cat-color-picker">
-                  <button type="button" class="color-swatch active" data-color="#4A90D9" style="background:#4A90D9" aria-label="Blue"></button>
-                  <button type="button" class="color-swatch" data-color="#D87093" style="background:#D87093" aria-label="Rose"></button>
-                  <button type="button" class="color-swatch" data-color="#50B86C" style="background:#50B86C" aria-label="Green"></button>
-                  <button type="button" class="color-swatch" data-color="#E6A23C" style="background:#E6A23C" aria-label="Amber"></button>
-                  <button type="button" class="color-swatch" data-color="#9B6DCC" style="background:#9B6DCC" aria-label="Purple"></button>
-                  <button type="button" class="color-swatch" data-color="#E66B6B" style="background:#E66B6B" aria-label="Red"></button>
-                  <button type="button" class="color-swatch" data-color="#5BBCD6" style="background:#5BBCD6" aria-label="Teal"></button>
-                  <button type="button" class="color-swatch" data-color="#F0C27A" style="background:#F0C27A" aria-label="Gold"></button>
+                  <button type="button" class="color-swatch active" data-color="#2563EB" style="background:#2563EB" aria-label="Blue"></button>
+                  <button type="button" class="color-swatch" data-color="#DC2626" style="background:#DC2626" aria-label="Red"></button>
+                  <button type="button" class="color-swatch" data-color="#16A34A" style="background:#16A34A" aria-label="Green"></button>
+                  <button type="button" class="color-swatch" data-color="#D97706" style="background:#D97706" aria-label="Amber"></button>
+                  <button type="button" class="color-swatch" data-color="#7C3AED" style="background:#7C3AED" aria-label="Purple"></button>
+                  <button type="button" class="color-swatch" data-color="#DB2777" style="background:#DB2777" aria-label="Pink"></button>
+                  <button type="button" class="color-swatch" data-color="#059669" style="background:#059669" aria-label="Teal"></button>
+                  <button type="button" class="color-swatch" data-color="#9A3412" style="background:#9A3412" aria-label="Brown"></button>
                 </div>
               </div>
 
@@ -379,45 +384,47 @@
             <div class="header-actions"></div>
           </header>
 
-          <div class="plan-month-nav">
-            <button class="month-arrow" id="track-prev-month" aria-label="Previous month">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="15 18 9 12 15 6"/></svg>
-            </button>
-            <span class="plan-month-label" id="track-month-label">April 2026</span>
-            <button class="month-arrow" id="track-next-month" aria-label="Next month">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="9 6 15 12 9 18"/></svg>
-            </button>
-          </div>
-
-          <div class="track-summary-cards">
-            <div class="summary-card income-card">
-              <span class="summary-card-label">Income</span>
-              <span class="summary-card-value" id="track-total-income">$0.00</span>
+          <div class="screen-body">
+            <div class="plan-month-nav">
+              <button class="month-arrow" id="track-prev-month" aria-label="Previous month">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <span class="plan-month-label" id="track-month-label">April 2026</span>
+              <button class="month-arrow" id="track-next-month" aria-label="Next month">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="9 6 15 12 9 18"/></svg>
+              </button>
             </div>
-            <div class="summary-card expense-card">
-              <span class="summary-card-label">Spent</span>
-              <span class="summary-card-value" id="track-total-spent">$0.00</span>
+
+            <div class="track-summary-cards">
+              <div class="summary-card income-card">
+                <span class="summary-card-label">Income</span>
+                <span class="summary-card-value" id="track-total-income">$0.00</span>
+              </div>
+              <div class="summary-card expense-card">
+                <span class="summary-card-label">Spent</span>
+                <span class="summary-card-value" id="track-total-spent">$0.00</span>
+              </div>
+              <div class="summary-card balance-card">
+                <span class="summary-card-label">Remaining</span>
+                <span class="summary-card-value" id="track-remaining">$0.00</span>
+              </div>
             </div>
-            <div class="summary-card balance-card">
-              <span class="summary-card-label">Remaining</span>
-              <span class="summary-card-value" id="track-remaining">$0.00</span>
+
+            <div class="section-label">
+              <span>Budget vs Actual</span>
             </div>
-          </div>
 
-          <div class="section-label">
-            <span>Budget vs Actual</span>
-          </div>
+            <div class="track-chart-area">
+              <canvas id="trackPieChart" width="260" height="260" aria-label="Spending breakdown chart"></canvas>
+              <div class="chart-legend" id="track-chart-legend"></div>
+            </div>
 
-          <div class="track-chart-area">
-            <canvas id="trackPieChart" width="200" height="200" aria-label="Spending breakdown chart"></canvas>
-            <div class="chart-legend" id="track-chart-legend"></div>
-          </div>
+            <div class="section-label">
+              <span>Category Breakdown</span>
+            </div>
 
-          <div class="section-label">
-            <span>Category Breakdown</span>
+            <ul class="track-category-list" id="track-category-list" aria-label="Spending by category"></ul>
           </div>
-
-          <ul class="track-category-list" id="track-category-list" aria-label="Spending by category"></ul>
         </div>
 
         <!-- Tracking: Category Detail -->
@@ -437,15 +444,15 @@
       <nav class="bottom-nav" aria-label="Main navigation">
         <button class="nav-btn active" data-feature="fs-recording" aria-label="Recording">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-          <span>Record</span>
+          <span>Transactions</span>
         </button>
         <button class="nav-btn" data-feature="fs-planning" aria-label="Planning">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
-          <span>Plan</span>
+          <span>Budget Plan</span>
         </button>
         <button class="nav-btn" data-feature="fs-tracking" aria-label="Tracking">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
-          <span>Track</span>
+          <span>Tracking</span>
         </button>
       </nav>
 
@@ -462,6 +469,22 @@
 
       <!-- Toast notification -->
       <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
+
+      <!-- On-screen keyboard simulation (shown when text inputs are focused) -->
+      <div class="keyboard-overlay hidden" id="kb-overlay" aria-hidden="true">
+        <div class="kb-row">
+          <button class="kb-key" tabindex="-1">Q</button><button class="kb-key" tabindex="-1">W</button><button class="kb-key" tabindex="-1">E</button><button class="kb-key" tabindex="-1">R</button><button class="kb-key" tabindex="-1">T</button><button class="kb-key" tabindex="-1">Y</button><button class="kb-key" tabindex="-1">U</button><button class="kb-key" tabindex="-1">I</button><button class="kb-key" tabindex="-1">O</button><button class="kb-key" tabindex="-1">P</button>
+        </div>
+        <div class="kb-row">
+          <button class="kb-key" tabindex="-1">A</button><button class="kb-key" tabindex="-1">S</button><button class="kb-key" tabindex="-1">D</button><button class="kb-key" tabindex="-1">F</button><button class="kb-key" tabindex="-1">G</button><button class="kb-key" tabindex="-1">H</button><button class="kb-key" tabindex="-1">J</button><button class="kb-key" tabindex="-1">K</button><button class="kb-key" tabindex="-1">L</button>
+        </div>
+        <div class="kb-row">
+          <button class="kb-key kb-wide" tabindex="-1">⇧</button><button class="kb-key" tabindex="-1">Z</button><button class="kb-key" tabindex="-1">X</button><button class="kb-key" tabindex="-1">C</button><button class="kb-key" tabindex="-1">V</button><button class="kb-key" tabindex="-1">B</button><button class="kb-key" tabindex="-1">N</button><button class="kb-key" tabindex="-1">M</button><button class="kb-key kb-wide" tabindex="-1">⌫</button>
+        </div>
+        <div class="kb-row">
+          <button class="kb-key kb-action" tabindex="-1">123</button><button class="kb-key kb-space" tabindex="-1">space</button><button class="kb-key kb-action" tabindex="-1">return</button>
+        </div>
+      </div>
 
     </main>
 

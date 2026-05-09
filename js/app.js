@@ -53,12 +53,12 @@
     if (getTransactions().length > 0) return;
 
     var cats = [
-      { id: 'cat-groceries', name: 'Groceries', limit: 300, color: '#4A90D9', icon: 'cart' },
-      { id: 'cat-dining', name: 'Dining', limit: 150, color: '#D87093', icon: 'utensils' },
-      { id: 'cat-transport', name: 'Transport', limit: 100, color: '#E6A23C', icon: 'car' },
-      { id: 'cat-entertainment', name: 'Entertainment', limit: 80, color: '#9B6DCC', icon: 'film' },
-      { id: 'cat-utilities', name: 'Utilities', limit: 120, color: '#5BBCD6', icon: 'bolt' },
-      { id: 'cat-rent', name: 'Rent', limit: 950, color: '#E66B6B', icon: 'home' },
+      { id: 'cat-groceries', name: 'Groceries', limit: 300, color: '#2563EB', icon: 'cart' },
+      { id: 'cat-dining', name: 'Dining', limit: 150, color: '#DC2626', icon: 'utensils' },
+      { id: 'cat-transport', name: 'Transport', limit: 100, color: '#D97706', icon: 'car' },
+      { id: 'cat-entertainment', name: 'Entertainment', limit: 80, color: '#7C3AED', icon: 'film' },
+      { id: 'cat-utilities', name: 'Utilities', limit: 120, color: '#059669', icon: 'bolt' },
+      { id: 'cat-rent', name: 'Rent', limit: 950, color: '#DB2777', icon: 'home' },
     ];
     setCategories(cats);
 
@@ -213,8 +213,8 @@
     list.sort(function (a, b) {
       if (sort === 'date-desc') return b.date.localeCompare(a.date);
       if (sort === 'date-asc') return a.date.localeCompare(b.date);
-      if (sort === 'amount-desc') return b.amount - a.amount;
-      if (sort === 'amount-asc') return a.amount - b.amount;
+      if (sort === 'amount-desc') return parseFloat(b.amount) - parseFloat(a.amount);
+      if (sort === 'amount-asc') return parseFloat(a.amount) - parseFloat(b.amount);
       if (sort === 'category') return a.category.localeCompare(b.category);
       return 0;
     });
@@ -288,7 +288,7 @@
   function formatDateShort(dateStr) {
     var d = new Date(dateStr + 'T00:00:00');
     var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    return months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+    return months[d.getMonth()] + ' ' + d.getDate();
   }
 
   function escHtml(str) {
@@ -530,7 +530,8 @@
         '<div class="cat-info"><div class="cat-name">' + escHtml(c.name) + '</div>' +
         '<div class="cat-limit">' + fmt(spent) + ' of ' + fmt(c.limit) + '</div></div>' +
         '<div class="cat-bar-wrap"><div class="cat-bar-bg"><div class="cat-bar-fill" style="width:' + pct + '%;background:' + barColor + '"></div></div>' +
-        '<div class="cat-bar-text">' + Math.round(pct) + '%</div></div>';
+        '<div class="cat-bar-text">' + Math.round(pct) + '%</div></div>' +
+        '<div class="cat-chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 6 15 12 9 18"/></svg></div>';
 
       li.addEventListener('click', function () { openEditCategory(c.id); });
       ul.appendChild(li);
@@ -792,30 +793,35 @@
   function drawPieChart(data, total) {
     var canvas = $('#trackPieChart');
     var ctx = canvas.getContext('2d');
-    var size = 200;
+    var size = 260;
     canvas.width = size;
     canvas.height = size;
     ctx.clearRect(0, 0, size, size);
 
+    var cx = size / 2, cy = size / 2, r = 108, innerR = 60;
+
     if (total === 0 || data.length === 0) {
       ctx.beginPath();
-      ctx.arc(size / 2, size / 2, 80, 0, Math.PI * 2);
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
       ctx.fillStyle = '#E2E4EC';
       ctx.fill();
-      ctx.fillStyle = '#8B90A0';
-      ctx.font = '14px "Segoe UI", Arial, Helvetica, sans-serif';
+      ctx.beginPath();
+      ctx.arc(cx, cy, innerR, 0, Math.PI * 2);
+      ctx.fillStyle = '#F5F6FA';
+      ctx.fill();
+      ctx.fillStyle = '#5E6474';
+      ctx.font = '15px "Segoe UI", Arial, Helvetica, sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText('No spending', size / 2, size / 2);
+      ctx.fillText('No spending', cx, cy);
       return;
     }
 
-    var cx = size / 2, cy = size / 2, r = 80;
     var start = -Math.PI / 2;
 
     data.forEach(function (item) {
       var angle = (item.spent / total) * Math.PI * 2;
-      if (angle < 0.01) return;
+      if (angle < 0.015) return;
       var end = start + angle;
 
       ctx.beginPath();
@@ -825,24 +831,26 @@
       ctx.fillStyle = item.color;
       ctx.fill();
 
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 3;
       ctx.strokeStyle = '#F5F6FA';
       ctx.stroke();
 
       start = end;
     });
 
-    // Center hole (donut)
+    // Donut hole
     ctx.beginPath();
-    ctx.arc(cx, cy, 45, 0, Math.PI * 2);
+    ctx.arc(cx, cy, innerR, 0, Math.PI * 2);
     ctx.fillStyle = '#F5F6FA';
     ctx.fill();
 
     ctx.fillStyle = '#1A1D26';
-    ctx.font = 'bold 16px "Segoe UI", Arial, Helvetica, sans-serif';
+    ctx.font = 'bold 15px "Segoe UI", Arial, Helvetica, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(fmt(total), cx, cy);
+    ctx.fillText('Total', cx, cy - 10);
+    ctx.font = 'bold 17px "Segoe UI", Arial, Helvetica, sans-serif';
+    ctx.fillText(fmt(total), cx, cy + 10);
   }
 
   function renderChartLegend(data, total) {
@@ -1085,6 +1093,38 @@
       trackMonth++;
       if (trackMonth > 11) { trackMonth = 0; trackYear++; }
       renderTrackingDashboard();
+    });
+
+    // On-screen keyboard simulation
+    var kbBlurTimer = null;
+    function showKb() {
+      clearTimeout(kbBlurTimer);
+      $('#kb-overlay').classList.remove('hidden');
+    }
+    function hideKb() {
+      kbBlurTimer = setTimeout(function () {
+        $('#kb-overlay').classList.add('hidden');
+      }, 120);
+    }
+    document.addEventListener('focusin', function (e) {
+      var el = e.target;
+      var tag = el.tagName ? el.tagName.toLowerCase() : '';
+      var type = (el.type || '').toLowerCase();
+      if (tag === 'textarea' || (tag === 'input' && type !== 'checkbox' && type !== 'radio' && type !== 'date')) {
+        showKb();
+      }
+    });
+    document.addEventListener('focusout', function (e) {
+      var el = e.target;
+      var tag = el.tagName ? el.tagName.toLowerCase() : '';
+      var type = (el.type || '').toLowerCase();
+      if (tag === 'textarea' || (tag === 'input' && type !== 'checkbox' && type !== 'radio' && type !== 'date')) {
+        hideKb();
+      }
+    });
+    // Prevent keyboard clicks from stealing input focus
+    $('#kb-overlay').addEventListener('mousedown', function (e) {
+      e.preventDefault();
     });
 
     // Initial render
